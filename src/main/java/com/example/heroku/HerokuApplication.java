@@ -69,7 +69,7 @@ public class HerokuApplication {
       }
 
       model.put("records", output);
-      return "db";
+      return db;
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
