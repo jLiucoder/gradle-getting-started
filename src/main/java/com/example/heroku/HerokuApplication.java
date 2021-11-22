@@ -55,7 +55,7 @@ public class HerokuApplication {
 
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
-    System.out.println("inside of db method: Jerry Liu");
+    System.out.println("output name here in db: Jerry Liu");
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
