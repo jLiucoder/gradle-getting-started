@@ -60,7 +60,7 @@ public class HerokuApplication {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp,name varchar(30))");
-      stmt.executeUpdate("INSERT INTO ticks VALUES (now(), '" + getRandomString() + "')");
+      stmt.executeUpdate("INSERT INTO ticks VALUES (now(), " + getRandomString() + ")");
       ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
 
       ArrayList<String> output = new ArrayList<String>();
