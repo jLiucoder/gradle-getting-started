@@ -67,7 +67,7 @@ public class HerokuApplication {
       while (rs.next()) {
         output.add("Read from DB: " + rs.getTimestamp("tick"));
       }
-
+ 
       model.put("records", output);
       return "db";
     } catch (Exception e) {
