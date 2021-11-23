@@ -59,8 +59,8 @@ public class HerokuApplication {
     System.out.println("output name here in db: Jerry Liu");
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp,name varchar(30))");
-      stmt.executeUpdate("INSERT INTO ticks VALUES (now(), " + getRandomString() + ")");
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp, name varchar(30))");
+      stmt.executeUpdate("INSERT INTO ticks VALUES (now(), '" + getRandomString() + "')");
       ResultSet rs = stmt.executeQuery("SELECT tick, name FROM ticks");
 
       ArrayList<String> output = new ArrayList<String>();
@@ -87,19 +87,16 @@ public class HerokuApplication {
     }
   }
 
-  public String getRandomString() {
-    int leftLimit = 48; // numeral '0'
-    int rightLimit = 122; // letter 'z'
-    int targetStringLength = 10;
-    Random random = new Random();
+  protected String getRandomString() {
+    String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    StringBuilder salt = new StringBuilder();
+    Random rnd = new Random();
+    while (salt.length() < 18) { // length of the random string.
+      int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+      salt.append(SALTCHARS.charAt(index));
+    }
+    String saltStr = salt.toString();
+    return saltStr;
 
-    String generatedString = random.ints(leftLimit, rightLimit + 1)
-      .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-      .limit(targetStringLength)
-      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-      .toString();
-
-    System.out.println(generatedString);
-    return generatedString;
   }
 }
