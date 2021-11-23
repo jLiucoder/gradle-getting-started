@@ -47,6 +47,7 @@ public class HerokuApplication {
 
   public static void main(String[] args) throws Exception {
     SpringApplication.run(HerokuApplication.class, args);
+    System.out.println("Rob Muschamp");
   }
 
   @RequestMapping("/")
@@ -56,7 +57,6 @@ public class HerokuApplication {
 
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
-    System.out.println("output name here in db: Jerry Liu");
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp, name varchar(30))");
@@ -69,7 +69,7 @@ public class HerokuApplication {
       }
 
       model.put("records", output);
-      return "db" + getRandomString();
+      return "db";
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
@@ -87,6 +87,7 @@ public class HerokuApplication {
     }
   }
 
+
   protected String getRandomString() {
     String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     StringBuilder salt = new StringBuilder();
@@ -99,4 +100,5 @@ public class HerokuApplication {
     return saltStr;
 
   }
+
 }
